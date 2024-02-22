@@ -4,8 +4,8 @@ import java.util.*;
 
 public class ArrayprbLeetcode {
     public static void main(String[] args) {
-//        int arr[] = {9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9};
-//        plusOnePrb(arr);
+        //int arr[] = {9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9};
+        //plusOnePrb(arr);
 
 //        int nums[] = {3,2,3};
 //        System.out.println( majorityElement(nums));
@@ -21,6 +21,8 @@ public class ArrayprbLeetcode {
 
 //        String s = "abab"; String ss ="ab";
 //        System.out.println(findAnagrams(s,ss));
+
+       // spiralOrder();// need to finish
 
 //        int arr[] = {1,44,58,67,70,90,100};
 //        System.out.println( binarySearch(arr,1000));
@@ -549,4 +551,16 @@ public class ArrayprbLeetcode {
         return count/2;
     }
 
+    public static List<Integer> spiralOrder() {
+        List<Integer> ls = new ArrayList<>();
+        int[][] matrix = {{}};
+        int count = 1;
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[i].length;j++){
+                System.out.print(count++);
+            }
+            System.out.println();
+        }
+        return new ArrayList<>();
+    }
 }
