@@ -45,9 +45,135 @@ public class LogicPrbLeetcode {
 
        // System.out.println(findPeakElement(new int[]{1,2}));
 
-        System.out.println(findJudge(3,new int[][]{{1,3},{2,3},{3,1}}));
+       // System.out.println(findJudge(3,new int[][]{{1,3},{2,3},{3,1}}));
+
+       //System.out.println(Arrays.toString(relativeSortArray(new int[]{2,3,1,3,2,4,6,7,9,2,19} , new int[]{2,1,4,3,9,6})));
+
+        //System.out.println(findInMountainArray(0, new int[]{1,5,2}));
+        //System.out.println(findInMountainArray(100, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82}));
+
+        System.out.println(letterCombinations("92"));
+
     }
 
+    public static List<String> letterCombinations(String digits) {
+      Map<String,String> map = new HashMap<>();
+      map.put("2","abc");
+      map.put("3","def");
+      map.put("4","ghi");
+      map.put("5","jkl");
+      map.put("6","mno");
+      map.put("7","pqrs");
+      map.put("8","tuv");
+      map.put("9","wxyz");
+      ArrayList<String> ans = new ArrayList<>();
+      String str = "";
+        for (int i = 0; i < digits.length() ; i++) {
+            str += map.get(digits.charAt(i)+"");
+        }
+        StringBuilder temp = new StringBuilder();
+        recStrLength(0,digits, map, temp,ans);
+        System.out.println(str);
+        return  new ArrayList<String>();
+    }
+
+    private static void recStrLength(int i,String digits,Map<String,String> map, StringBuilder temp, ArrayList<String> ans) {
+        Stack<String> stack = new Stack<>();
+        if(i>=digits.length()){
+            ans.add(temp.toString());
+            return;
+            }String str = map.get(digits.charAt(i));
+        for (int j = 0; j < digits.length(); j++) {
+
+        }
+        temp.append(str.charAt(i));
+        //recStrLength(i+1, digits, temp, ans);
+        temp.deleteCharAt(temp.length()-1);
+
+
+
+    }
+
+    public static int findInMountainArray(int t, int[] mountainArr) {
+        int start = 0;
+        int end = mountainArr.length-1;
+        int temp1=0;
+        int temp2=0;
+       // int mid = start + (end-start)/2;
+        int mid = findMidOfIndex(mountainArr);
+        if(mountainArr[start] == mountainArr[mid] && mountainArr[start] == t) return start;
+        if(mountainArr[mid] == t){
+            return  mid;
+        }else {
+            temp1 = find(mountainArr, t, start, mid-1);
+            temp2 = find(mountainArr, t, mid+1, end);
+            if(temp1<mountainArr.length && mountainArr[temp1] == t) return temp1;
+            else if(temp2<mountainArr.length && mountainArr[temp2] == t) return temp2;
+            else return -1;
+        }
+    }
+
+    private static int findMidOfIndex(int[] m) {
+        int st=0; int en=m.length-1;
+        while (st<en){
+            int mid = st+(en-st)/2;
+           // if(m[mid] == t) return mid;
+             if (m[mid]> m[mid+1]) {
+                en=mid;
+            }else st=mid+1;
+        }
+        return en;
+    }
+
+    static int find(int[] mountainArr, int t, int start, int end){
+        boolean isAsc = mountainArr[start] < mountainArr[end];
+        while(start <= end){
+            int mid = start +(end-start)/2;
+            if(mountainArr[mid]== t) return mid;
+            else{
+                if(isAsc){
+                    if(mountainArr[mid] > t){
+                        end = mid -1;
+                    }else {
+                        start = mid+1;
+                    }
+                }else {
+                    if(mountainArr[mid] < t){
+                        end = mid -1;
+                    }else {
+                        start = mid+1;
+                    }
+                }
+            }
+        }
+        return start;
+    }
+
+
+    public static int[] relativeSortArray(int[] arr1, int[] arr2) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i : arr1) map.put(i,map.getOrDefault(i,0)+1);
+        int k =0;
+        for (int i = 0; i < arr2.length ; i++) {
+            if(map.containsKey(arr2[i])){
+                for (int j = 0; j < map.get(arr2[i]); j++) {
+                    arr1[k++]=arr2[i];
+                }map.remove(arr2[i]);
+            }
+        }//k= arr1.length-1;
+        if(!map.isEmpty()){
+            int[] tem=new int[arr1.length-k];
+            int l=0;
+            for(int i: map.keySet()){
+                for (int j = 0; j < map.get(i); j++) {
+                    tem[l++]=i;
+                }//map.remove(i);
+            }
+            Arrays.sort(tem);
+            for(int i:tem) arr1[k++]=i;
+        }
+        return arr1;
+    }
     public static int findJudge(int N, int[][] trust) {
         int[] in = new int[N + 1];
         int[] out = new int[N + 1];

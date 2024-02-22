@@ -24,24 +24,8 @@ public class ArrayprbLeetcode {
 
        // spiralOrder();// need to finish
 
-//        int arr[] = {1,44,58,67,70,90,100};
-//        System.out.println( binarySearch(arr,1000));
 
-//          int arr[][] = {
-//                  {1,2,3,4},
-//                  {5,6,7,8},
-//                  {9,10,11,12},
-//                  {13,14,15,16}
-//          };
-//        System.out.println(Arrays.toString(binarySearch2D(arr,113)));
 
-//        int arr[][]={
-//                {10,20,30,40},
-//                {15,25,35,45},
-//                {20,40,60,80},
-//                {30,60,90,120}
-//        };
-//        System.out.println(Arrays.toString(binarySearch2DAlternative(arr,113)));
 
 //        int [] arr = {2,2,3,2};
 //        System.out.println(singleNumber(arr));
@@ -81,9 +65,66 @@ public class ArrayprbLeetcode {
 //        int nums2[]={2};
 //        findMedianSortedArrays(nums1,nums2);
 
-        spiralMatrix(1,2);//need to finish
+ //       spiralMatrix(1,2);//need to finish
 
+       // rotate(new int[]{1,2},2);
+       // System.out.println(findMin(new int[]{3,4,5,1,2}));
 
+        System.out.println(removeDuplicates(new int[]{-3,-1,0,0,0,3,3}));
+    }
+
+    public static int removeDuplicates(int[] nums) {
+        HashMap<Integer,Integer> ls = new HashMap<>();
+        int[] arr = new int[nums.length];int j=0;
+        for(int i=0;i<nums.length;i++){
+            if(!ls.containsKey(nums[i])) arr[j++] = nums[i];
+            ls.put(nums[i], ls.getOrDefault(nums[i],0)+1);
+        }
+        int count =0;
+        if(!ls.isEmpty()){
+            for (int i = 0; ls.size() > 0 && i < arr.length; i++) {
+                int key = arr[i];
+                if(ls.get(key)>1){
+                    for (int k = 0; k < 2; k++) {
+                        nums[count++]=key;
+                    }
+                }else {
+                    nums[count++]=key;
+                }
+                ls.remove(key);
+            }
+        }
+        return count;
+    }
+
+    public static int findMin(int[] nums) {
+        int st = 0;
+        int en = nums.length-1;
+        while(st<en){
+            int mid = st+(en-st)/2;
+            if(nums[st] > nums[mid]) en=mid-1;
+            else if(nums[mid] > nums[mid+1]) return nums[mid+1];
+            else st=mid+1;
+        }
+        return  st;
+        //return st+1 >= nums.length ? nums[0] : nums[st+1];
+    }
+
+    public static void rotate(int[] nums, int k) {
+        k = k%nums.length;
+        if(k<0) k +=nums.length;
+        rotatingParts(nums, 0, nums.length-k-1);
+        rotatingParts(nums, nums.length-k, nums.length-1);
+        rotatingParts(nums, 0, nums.length-1);
+    }
+
+    static void rotatingParts(int[] nums, int st, int en){
+        while(st<en){
+            int temp = nums[st];
+            nums[st] = nums[en];
+            nums[en] = temp;
+            st++; en--;
+        }
     }
 
     private static void spiralMatrix(int col, int row) {
@@ -306,9 +347,7 @@ public class ArrayprbLeetcode {
         return arr;
     }
 
-    private static int[] binarySearch2DAlternative(int[][] arr, int i) {
-        return  new int[]{-1,-1};
-    }
+
 
     public static int findLeastNumOfUniqueInts(int[] arr, int k) {
         Map<Integer, Integer> count = new HashMap<>();
@@ -366,37 +405,6 @@ public class ArrayprbLeetcode {
     }
 
 
-    private static int[] binarySearch2D(int[][] arr, int i) {
-        int start = 0;
-        int end = arr.length-1;
-
-        while (start<=end){
-            int rowMid = start +(end-start)/2;
-            int startInner = 0;
-            int endInner = arr[rowMid].length -1;
-            boolean flag = true;
-            while (startInner<=endInner){
-                int mid = startInner+(endInner-startInner)/2;
-                if(i==arr[rowMid][mid]) return new int[]{rowMid,mid};//2,2 => 1,1
-                else if(i<arr[rowMid][mid]){
-                    endInner = mid-1;//1
-                    flag = false;
-                }else{
-                    startInner = mid+1;//3
-                    flag = true;
-                }
-            }
-
-            if(!flag){
-                end = rowMid-1;//1
-            }else {
-                start = rowMid+1;
-            }
-
-        }
-
-        return new int[]{-1,-1};
-    }
 
     private static int jumpMediumGame(int[] arr) {
         int jump = 1;
@@ -413,33 +421,7 @@ public class ArrayprbLeetcode {
         return jump;
     }
 
-    private static int binarySearch(int[] arr, int i) {
-        int s = 0;
-        int e = arr.length-1;
-        boolean isAsc = arr[s] < arr[e];
-        while (s<=e){
-            int mid = s+(e-s)/2;
-            if(arr[mid] == i){
-                return mid;
-            }else {
-                if(isAsc){
-                   if(arr[mid] < i){
-                       s=mid+1;
-                   }else{
-                       e=mid-1;
-                   }
-                }else {
-                    if(arr[mid] > i){
-                        s=mid+1;
-                    }else{
-                        e=mid-1;
-                    }
-                }
-            }
-        }
 
-        return -1;
-    }
 
     public static List<Integer> findAnagrams(String s, String p) {
         List<Integer> ls = new ArrayList<>();
