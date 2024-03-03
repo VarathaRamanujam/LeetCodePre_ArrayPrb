@@ -1,6 +1,8 @@
 package JavaPrograms;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.TreeSet;
 
 public class BinarySearchPrb {
     public static void main(String[] args) {
@@ -27,6 +29,82 @@ public class BinarySearchPrb {
         //System.out.println(search(new int[]{3,4,5,6,7,1,2},4));
 
        // System.out.println(searching(new int[]{1,0,1,1,1}, 0));//need to complete
+
+        //System.out.println(upperBound(new int[]{5 ,12 ,12 ,15 ,18 ,21 ,35 ,37 ,38 ,46 ,47 ,48 ,48 ,50  },45));
+
+        //System.out.println(lowerBound(new int[]{1,1,1,1,1}, 1));
+
+        System.out.println(findMedian(new int[][]{{ 1, 5, 7, 9, 11 },
+                { 2, 3, 4, 8, 9 },
+                { 4, 11, 14, 19, 20 },
+                { 6, 10, 22, 99, 100 },
+                { 7, 15, 17, 24, 28 }}, 5, 5));
+    }
+
+    public static int findMedian(int matrix[][], int m, int n) {
+//        int total = 0;int mid = 0;
+//        for (int i = 0; i < matrix.length; i++) {
+//            total += matrix[i].length;
+//        }
+//        mid = total/2;int cal = 0;
+//        for (int i = 0; i < matrix.length; i++) {
+//            if(cal + matrix[i].length >= mid){
+//                for (int j = 0; j < matrix[i].length; j++) {
+//                    cal++;
+//                    if(cal == mid)return matrix[i][j];
+//                }
+//            }else {
+//                cal += matrix[i].length;
+//            }
+//        }
+
+        int[] temp = new int[m*n]; int ind = 0;
+        //PriorityQueue tr = new PriorityQueue<>();
+        for (int i = 0; i < matrix.length ; i++) {
+            for (int j = 0; j < matrix[i].length ; j++) {
+                temp[ind++]=matrix[i][j];//tr.offer(matrix[i][j]);
+            }
+        }
+        int mid = (m*n)/2 ;
+//        for (int i = 0; i < mid; i++) {
+//            tr.poll();
+//       }
+        //return  tr.peek();
+        //System.out.println(tr);
+        Arrays.sort(temp);
+        //System.out.println(Arrays.toString(temp));
+        return temp[mid];
+    }
+
+    public static int lowerBound(int []arr, int x) {
+        int st = 0;
+        int en = arr.length-1;
+        while(st<=en){
+            int md = st+(en-st)/2;
+            if(arr[md] == x){
+                int i = md;
+                while(i>=0 && arr[i] == x)i--;
+                return i+1;
+            }else if(arr[md] > x){
+                en = md-1;
+            }else st = md+1;
+        }
+        return st;
+    }
+    public static int upperBound(int []arr, int x){
+        int st = 0;
+        int en = arr.length-1;
+        while(st<=en){
+            int md = st+(en-st)/2;
+            if(arr[md] == x){
+                int i = md;
+                while(i<arr.length && arr[i] == x)i++;
+                return i;
+            }else if(arr[md] > x){
+                en = md-1;
+            }else st = md+1;
+        }
+        return arr.length;
     }
 
     public static boolean searching(int[] nums, int t) {

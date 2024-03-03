@@ -4,28 +4,35 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class LeetCodePrbEasy {
+//    public static void main(String[] args) {
+//       int [] nums = {0,0,1,1,1,2,2,3,3,4};
+//        //System.out.println( removeDuplicates(nums));
+//
+//        //reverseInt();
+//
+//        //stringToInt();
+//
+//        int [] num ={7,0,9,6,9,6,1,7,9,0,1,2,9,0,3};
+//        //int [] num = {3,2,1,0,4};
+//        //System.out.println(canJump(num));
+//        //System.out.println(jump(num));
+//
+//        myAtoi("5024S");//need to complete
+//
+//        //System.out.println( firstNonRepeatedChar("manbfkjymuyfuyfyf"));
+//
+////        int arr[]={9,2,11};
+////        Stack list = new Stack<>();
+////        recSubArray(0,arr,list);
+//
+//       // System.out.println(longestPalindrome("ababad"));
+//
+//
+//        //System.out.println(longestPalindromeLen("abccccdd"));
+//    }
+
     public static void main(String[] args) {
-       int [] nums = {0,0,1,1,1,2,2,3,3,4};
-        //System.out.println( removeDuplicates(nums));
-        //reverseInt();
-        //stringToInt();
-        int [] num ={7,0,9,6,9,6,1,7,9,0,1,2,9,0,3};
-        //int [] num = {3,2,1,0,4};
-        //System.out.println(canJump(num));
-        //System.out.println(jump(num));
-
-       // myAtoi("2147483646");//need to complete
-
-        //System.out.println( firstNonRepeatedChar("manbfkjymuyfuyfyf"));
-
-//        int arr[]={9,2,11};
-//        Stack list = new Stack<>();
-//        recSubArray(0,arr,list);
-
-       // System.out.println(longestPalindrome("ababad"));
-
-
-        System.out.println(longestPalindromeLen("abccccdd"));
+        myAtoi("5024S");
     }
 
     public static int longestPalindromeLen(String s) {

@@ -52,46 +52,95 @@ public class LogicPrbLeetcode {
         //System.out.println(findInMountainArray(0, new int[]{1,5,2}));
         //System.out.println(findInMountainArray(100, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82}));
 
-        System.out.println(letterCombinations("92"));
+        //System.out.println(letterCombinations("9"));
+
+        //System.out.println(largestOddNumber("53"));
+
+       // System.out.println(countSubStrings("aacfssa",3));
+
+        //System.out.println( minMoves(10, 4));
+
+        //System.out.println(createAtoi("-+6485917"));
+
+//        Stack<Integer> st = new Stack<>();
+//        st.add(1);st.add(2);st.add(3);st.add(4);st.add(5);
+//        reverseStack(st, 0, st.size()-1);
+    }
+
+
+
+    public static void reverseStack(Stack<Integer> stack, int st, int en) {
+            if(st>en) return;
+            int temp = stack.get(st); //stack.remove(st);
+            stack.add(st, stack.get(en)); //stack.remove(en);
+            stack.add(en, temp);
+            reverseStack(stack, st+1, en-1);
+        System.out.println(stack);
+    }
+
+    public static int createAtoi(String str) {
+        // Write your code here.
+        str = str.trim();
+        boolean check = true;int i=0;
+        if(str.charAt(i) == '-') {
+            check = false;i++;
+        } else if (str.charAt(i) == '+') {
+            i++;
+        }
+        int val = 0;
+        while(i<str.length() && Character.isDigit(str.charAt(i))){
+            int temp = str.charAt(i) - '0';
+            if(val > Integer.MAX_VALUE/10)
+                return check ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            val = (val*10) + temp;i++;
+        }
+        return check ? val : -(val);
 
     }
 
-    public static List<String> letterCombinations(String digits) {
-      Map<String,String> map = new HashMap<>();
-      map.put("2","abc");
-      map.put("3","def");
-      map.put("4","ghi");
-      map.put("5","jkl");
-      map.put("6","mno");
-      map.put("7","pqrs");
-      map.put("8","tuv");
-      map.put("9","wxyz");
-      ArrayList<String> ans = new ArrayList<>();
-      String str = "";
-        for (int i = 0; i < digits.length() ; i++) {
-            str += map.get(digits.charAt(i)+"");
+    public static int minMoves(int t, int d) {
+        int count = 0;
+        while(t > 1 && d > 0){
+            if(t%2 != 0){
+                t -= 1;
+                count++;
+            }
+            t /=2;
+            count++;
+            d--;
+        }//--t;
+        if(t != 1){
+            t--;
+            count += t;
         }
-        StringBuilder temp = new StringBuilder();
-        recStrLength(0,digits, map, temp,ans);
-        System.out.println(str);
-        return  new ArrayList<String>();
+        return count;
     }
 
-    private static void recStrLength(int i,String digits,Map<String,String> map, StringBuilder temp, ArrayList<String> ans) {
-        Stack<String> stack = new Stack<>();
-        if(i>=digits.length()){
-            ans.add(temp.toString());
-            return;
-            }String str = map.get(digits.charAt(i));
-        for (int j = 0; j < digits.length(); j++) {
-
+    public static int countSubStrings(String str, int k) {
+        int count = 0;
+        for(int i=0;i<str.length()-k;i++){
+            int temp = k-1;
+            int j = i;StringBuilder s = new StringBuilder("");
+            while(j+1 < str.length() && temp>=0){
+                if( str.charAt(j) != str.charAt(j+1)) {
+                    temp--;
+                }s.append(str.charAt(j));
+                j++;
+            }
+            System.out.println(s.toString());
+            if(temp==0) count++;
         }
-        temp.append(str.charAt(i));
-        //recStrLength(i+1, digits, temp, ans);
-        temp.deleteCharAt(temp.length()-1);
+        return count;
+    }
 
-
-
+    public static String largestOddNumber(String s) {
+        for(int i=s.length()-1;i>=0;i--){
+            int temp = s.charAt(i)-'0';
+            if(temp % 2 == 1){
+                return s.substring(0,i+1);
+            }
+        }
+        return "";
     }
 
     public static int findInMountainArray(int t, int[] mountainArr) {
