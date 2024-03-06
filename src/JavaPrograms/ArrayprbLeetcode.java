@@ -133,38 +133,219 @@ public class ArrayprbLeetcode {
 //        recInArraySubSet(ls, arr, new ArrayList<>());
 //        System.out.println(ls);
 
-        List<String> res =wordSubsets(new String[]{"amazon","apple","facebook","google","leetcode"}, new String[]{"lo","eo"});
-        System.out.println(res);
+//        List<String> res =wordSubsets(new String[]{"amazon","apple","facebook","google","leetcode"}, new String[]{"e","oo"});
+//        System.out.println(res);
+
+        //List<List<Integer>> res = threeSum(new int[]{0,0,0});
+        //System.out.println(res);
+
+        //System.out.println(threeSumClosest(new int[]{1,2,7,13}, 12));
+
+        //System.out.println(lengthOfLongestSubstring("abcabcbb"));
+
+        System.out.println(bagOfTokensScore(new int[]{200,100},150));
+
        // System.out.println(checkSubarraySum(new int[]{23,2,4,6,6},7)); //need to work
     }
 
-    public static List<String> wordSubsets(String[] words1, String[] words2) {
-        List<String> res = new ArrayList<>();
-        Map<Character,Integer> mp2 = new HashMap<>();
-        for(int j=0;j<words2.length;j++){
-            Map<Character,Integer> temp = new HashMap<>();
-            for (char c:words2[j].toCharArray()) {//this is for words2
-                temp.put(c,mp2.getOrDefault(c,0)+1);
-            }
-            for (char c: temp.keySet()) {//this is for words2
-                if(mp2.containsKey(c)) mp2.put(c,Math.max(mp2.get(c),temp.get(c)));
-                else mp2.put(c,mp2.getOrDefault(c,0)+1);
+    public static int bagOfTokensScore(int[] tokens, int power) {
+        //Arrays.sort(tokens);
+        int lf = 0; int rt = tokens.length-1;
+        quickSort(tokens, lf, rt);
+        int score = 0; int max = 0;
+        while(lf<=rt){
+            if(power>=tokens[lf]){
+                power -= tokens[lf++];
+                score++;
+                max = Math.max(max,score);
+            }else if(score>0){
+                power += tokens[rt--];
+                score--;
+            }else break;
+        }
+        return max;
+    }
+
+    static void quickSort(int[] tok, int st, int en){
+        if(st<en){
+            int pivot = findThePivots(tok, st, en);
+            quickSort(tok, st, pivot);
+            quickSort(tok, pivot+1, en);
+        }
+    }
+
+   static int findThePivots(int[] tok, int lf, int rt){
+        int pivot = tok[lf];int st=lf; int en=rt;
+        while(st<en){
+            while( tok[st]<=pivot && st<=rt-1)st++;
+            while( tok[en]>pivot && en>=lf+1)en--;
+            if(st<en){
+                int temp = tok[st];
+                tok[st] = tok[en];
+                tok[en] = temp;
             }
         }
-        for(int i=0;i<words1.length;i++){
-            boolean check = true;
-            Map<Character,Integer> mp1 = new HashMap<>();
-            for (char c:words1[i].toCharArray()){//this is for words1
-                mp1.put(c,mp1.getOrDefault(c,0)+1);
+        int temp = tok[lf];
+        tok[lf] = tok[en];
+        tok[en] = temp;
+        return en;
+    }
+
+    public static int lengthOfLongestSubstring(String s) {
+        int max = 0;int count = 0;
+        if(s.length() == 1)return 1;
+        Map<Character,Integer> mp = new HashMap<>();
+        for(int i=0;i<s.length();i++){
+           char c = s.charAt(i);
+            if(!mp.containsKey(c)){
+                count++;
+                mp.put(c,1);
+            }else{
+                max =  Math.max(count, max);
+                int j = i-1;count = 1;
+                mp = new HashMap<>();
+                mp.put(c,1);
+                while (j>=0 && c != s.charAt(j)) {
+                    mp.put(s.charAt(j),1);
+                    j--;count++;
+                }
             }
-            for (char key:mp2.keySet()){
-                if(mp1.containsKey(key) && (mp1.get(key) >= mp2.get(key))){
-                    continue;
-                } check = false; break;
+        }max =  Math.max(count, max);
+        return max;
+    }
+
+    public static int threeSumClosest(int[] nums, int target) {
+        int count = 0;
+        Arrays.sort(nums);
+        int i = 0; int a = Integer.MIN_VALUE; boolean check = true;
+        while(i<=nums.length-3){
+            while(i<nums.length-2 && nums[i] == a)i++;
+            a = nums[i];
+            int j = i+1;
+            int k = nums.length-1;
+            int b = nums[j];
+            int c = nums[k];
+            while (j<k) {
+                int sum = a+b+c;
+                if (sum < target) {
+                    if (!check) {
+                        count = Math.max(count, sum);
+                        if (count>0 && sum>0 && count-target > target-sum)count = sum;
+                    }
+                    if(check) {
+                        count = sum;
+                        check = false;
+                    }
+                    while (j<k && nums[j] == b) j++;
+                    b = nums[j];
+                } else if (sum > target) {
+                    if (!check) {
+                        count = Math.min(count, sum);
+                        if(count == target-2 && sum == target+1) count = sum;
+                        if (count>0 && sum>0 && target-count > sum-target)count = sum;
+                    }
+                    if(check) {
+                        count = sum;
+                        check = false;
+                    }
+                    while (k>j && nums[k] == c)k--;
+                    c = nums[k];
+                } else {
+                    count = sum; break;
+                }
             }
-            if(check) res.add(words1[i]);
+            i++;
+        }
+        return count;
+    }
+
+    public static List<List<Integer>> threeSum(int[] nums) {
+        HashSet<List<Integer>> ls = new HashSet<>();
+        Arrays.sort(nums);
+        int i = 0; int a = Integer.MIN_VALUE;
+        while(i<=nums.length-3){
+            while(i<nums.length-2 && nums[i] == a)i++;
+            a = nums[i];
+            int j = i+1;
+            int k = nums.length-1;
+            int b = nums[j];
+            int c = nums[k];
+
+            while (j<k) {
+                if (a + b + c == 0) {
+                    List<Integer> temp = new ArrayList<>();
+                    temp.add(a);
+                    temp.add(b);
+                    temp.add(c);
+                    Collections.sort(temp);
+                    ls.add(temp);
+                    k--;
+                    c = nums[k];
+                } else if (a + b + c < 0) {
+                    while (j<k && nums[j] == b) j++;
+                    b = nums[j];
+                } else if (a + b + c > 0) {
+                    while (k>j && nums[k] == c)k--;
+                    c = nums[k];
+                }
+            }
+            i++;
+        }
+        List<List<Integer>> res = new ArrayList<>(ls);
+        return res;
+    }
+
+    public static List<String> wordSubsets(String[] words1, String[] words2) {
+//        List<String> res = new ArrayList<>();
+//        Map<Character,Integer> mp2 = new HashMap<>();
+//        for(int j=0;j<words2.length;j++){
+//            Map<Character,Integer> temp = new HashMap<>();
+//            for (char c:words2[j].toCharArray()) {//this is for words2
+//                temp.put(c,mp2.getOrDefault(c,0)+1);
+//            }
+//            for (char c: temp.keySet()) {//this is for words2
+//                if(mp2.containsKey(c)) mp2.put(c,Math.max(mp2.get(c),temp.get(c)));
+//                else mp2.put(c,mp2.getOrDefault(c,0)+1);
+//            }
+//        }
+//        for(int i=0;i<words1.length;i++){
+//            boolean check = true;
+//            Map<Character,Integer> mp1 = new HashMap<>();
+//            for (char c:words1[i].toCharArray()){//this is for words1
+//                mp1.put(c,mp1.getOrDefault(c,0)+1);
+//            }
+//            for (char key:mp2.keySet()){
+//                if(mp1.containsKey(key) && (mp1.get(key) >= mp2.get(key))){
+//                    continue;
+//                } check = false; break;
+//            }
+//            if(check) res.add(words1[i]);
+//        }
+//       return res;
+        List<String> res = new ArrayList<>();
+        int[] w2Array = new int[26];
+        for (String w2:words2 ){
+            int[] temp = new int[26];
+            for (char c:w2.toCharArray() ){
+                temp[c-'a']++;
+                w2Array[c-'a'] = Math.max(w2Array[c-'a'],temp[c-'a']);
+            }
+        }
+        for (String w1:words1 ){
+            int[] w1Array = new int[26];
+            for (char c:w1.toCharArray() ){
+                w1Array[c-'a']++;
+            }
+            if(checker(w1Array,w2Array))res.add(w1);
         }
         return res;
+    }
+
+    static boolean checker(int[] w1, int[] w2){
+        for (int i = 0; i < 26; i++) {
+            if(w1[i]<w2[i]) return false;
+        }
+        return true;
     }
 
     public static boolean checkSubarraySum(int[] nums, int k) {

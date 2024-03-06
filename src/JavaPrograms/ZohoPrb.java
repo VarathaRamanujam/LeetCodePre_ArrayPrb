@@ -8,7 +8,33 @@ import java.util.Stack;
 public class ZohoPrb {
     public static void main(String[] args) {
         //prb2();
-        System.out.println(stackPrb());
+       // System.out.println(stackPrb());
+        System.out.println(minimumLength("bbbbbbbbbbbbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbccbcbcbccbbabbb"));
+    }
+
+    public static int minimumLength(String s) {
+        StringBuilder sb = new StringBuilder(s);
+        while(true){
+            int lf = 0;
+            int rt = sb.length()-1;
+            if (sb.charAt(lf) == sb.charAt(rt) && lf != rt){
+                while (sb.length() > lf+1 && sb.charAt(lf) == (sb.charAt(lf+1))){
+                    sb.deleteCharAt(lf);
+                    lf = 0;
+                }
+                sb.deleteCharAt(lf);
+                rt = sb.length()-1;
+                if(rt<0) break;
+                while (rt-1>=0 && sb.charAt(rt) == sb.charAt(rt-1)){
+                    sb.deleteCharAt(rt--);
+                    rt = sb.length()-1;
+                }
+                sb.deleteCharAt(rt);
+            } else {
+                break;
+            }
+        }
+        return sb.length();
     }
 
     private static boolean stackPrb() {
