@@ -7,13 +7,28 @@ import java.util.List;
 public class Permutation {
     public static void main(String[] args) {
         List<List<String>> res = new ArrayList<>();
-       // permutationForStrings("abc", new ArrayList<>(), res);
+        permutationForStrings("123", new ArrayList<>(), res);
         boolean[] check = new boolean[3];
        // permutationForDuplicateStrings("123", new ArrayList<>(), res, check);
-       //  System.out.println(res);
+         System.out.println(res);
 
+        System.out.println(permutationOfKth("",4 , 1, new int[]{0}));
     }
 
+    static String permutationOfKth(String p, int n, int k, int[] counter){
+        if(n == p.length()){
+            counter[0] += 1;
+            if(counter[0] == k) return p;
+            return "";
+        }else{
+            StringBuilder res = new StringBuilder();
+            for(int i=1; i<=n && counter[0]<=k; i++){
+                if(p.contains(i+"")) continue;
+                res.append(permutationOfKth(p+i, n, k, counter));
+            }
+            return res.toString();
+        }
+    }
 
     static void permutationForDuplicateStrings(String s, ArrayList<String>ls, List<List<String>> res, boolean[] check){
         if (ls.size() == s.length()){
