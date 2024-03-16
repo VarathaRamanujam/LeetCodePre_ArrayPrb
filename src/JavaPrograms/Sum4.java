@@ -3,7 +3,7 @@ package JavaPrograms;
 import java.util.*;
 
 public class Sum4 {
-    public static void main(String[] args) {
+    public static void main(String[] args) { //Using Two Pointer Approach
 //        List<List<Integer>> res = fourSum(new int[]{1000000000,1000000000,1000000000,1000000000}, 8);
 //        System.out.println(res);
 
