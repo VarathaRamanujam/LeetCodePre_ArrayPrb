@@ -359,7 +359,7 @@ public class ArrayprbLeetcode {
                 index++;
             }
         }
-        return total % k == 0 ? true : false;
+        return total % k == 0;
     }
     static  void iterationInArraySubSet(){
         List<List<Integer>> ls = new ArrayList<>();
@@ -436,7 +436,7 @@ public class ArrayprbLeetcode {
                 len=k;
                 start = i;
             }else  if(i>0){
-                len = i-0;
+                len = i;
                 start=i;
             }
             for (int j = start; j < c.length-1; j++) {
@@ -576,7 +576,7 @@ public class ArrayprbLeetcode {
               len=k;
               start = i;
           }else  if(i>0){
-              len = i-0;
+              len = i;
               start=i;
           }
           for (int j = start; j < c.length-1; j++) {

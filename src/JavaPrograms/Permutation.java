@@ -6,16 +6,62 @@ import java.util.List;
 
 public class Permutation {
     public static void main(String[] args) {
-        List<List<String>> res = new ArrayList<>();
-        permutationForStrings("123", new ArrayList<>(), res);
-        boolean[] check = new boolean[3];
-       // permutationForDuplicateStrings("123", new ArrayList<>(), res, check);
-         System.out.println(res);
+//        List<List<String>> res = new ArrayList<>();
+//        permutationForStrings("12340", new ArrayList<>(), res);
+//        boolean[] check = new boolean[3];
+//       // permutationForDuplicateStrings("123", new ArrayList<>(), res, check);
+//         System.out.println(res);
 
-        System.out.println(permutationOfKth("",4 , 1, new int[]{0}));
+       // System.out.println(permutationOfKth("",4 , 1, new int[]{0}));
+
+        nextPermutation(new int[]{1,3,2});
     }
 
-    static String permutationOfKth(String p, int n, int k, int[] counter){
+    public static void nextPermutation(int[] nums) {
+        //1.find the pivot like 4<5,  2.find the largest of index element and swap it.   3.reverse the remaining element index+1.
+        int index = -1;
+        for(int i=nums.length-2; i>=0; i--){
+            if(nums[i] < nums[i+1]){
+                index = i;
+                break;
+            }
+        }
+        if(index == -1){ // if last index is greater
+            int i=0; int j= nums.length-1;
+            while (i<j){
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+                i++;
+                j--;
+            }
+            System.out.println(Arrays.toString(nums));
+            return;
+        }
+
+        // Second largest number
+        for (int i = nums.length-1; i >index ; i--) {
+            if (nums[i] > nums[index]){
+                int temp = nums[index];
+                nums[index] = nums[i];
+                nums[i] = temp;
+                break;
+            }
+        }
+
+        //reversse the remaining
+        int i=index+1; int j=nums.length-1;
+        while (i<j){
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
+        }
+        System.out.println(Arrays.toString(nums));
+    }
+
+        static String permutationOfKth(String p, int n, int k, int[] counter){
         if(n == p.length()){
             counter[0] += 1;
             if(counter[0] == k) return p;

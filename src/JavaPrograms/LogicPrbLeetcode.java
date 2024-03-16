@@ -596,10 +596,8 @@ public class LogicPrbLeetcode {
     }
 
     public static int hammingWeight(int n) {
-        n=00000000000000000000000000001011;
+        n= 521;
         String s = "00000000000000000000000000001011";
-        if(!s.contains("0")) return s.length();
-        if(!s.contains("1")) return 0;
 
         int count=0;
         for(int i=0;i<s.length();i++){
